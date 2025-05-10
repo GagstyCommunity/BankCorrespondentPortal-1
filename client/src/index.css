@@ -3,49 +3,73 @@
 @tailwind utilities;
 
 :root {
-      --background: 0 0% 100%;
---foreground: 20 14.3% 4.1%;
---muted: 60 4.8% 95.9%;
---muted-foreground: 25 5.3% 44.7%;
---popover: 0 0% 100%;
---popover-foreground: 20 14.3% 4.1%;
---card: 0 0% 100%;
---card-foreground: 20 14.3% 4.1%;
---border: 20 5.9% 90%;
---input: 20 5.9% 90%;
---primary: 207 90% 54%;
---primary-foreground: 211 100% 99%;
---secondary: 60 4.8% 95.9%;
---secondary-foreground: 24 9.8% 10%;
---accent: 60 4.8% 95.9%;
---accent-foreground: 24 9.8% 10%;
---destructive: 0 84.2% 60.2%;
---destructive-foreground: 60 9.1% 97.8%;
---ring: 20 14.3% 4.1%;
---radius: 0.5rem;
-  }
+  /* Base colors */
+  --background: 0 0% 100%;
+  --foreground: 20 14.3% 4.1%;
+  --muted: 60 4.8% 95.9%;
+  --muted-foreground: 25 5.3% 44.7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14.3% 4.1%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14.3% 4.1%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  
+  /* Custom Fia Global Colors */
+  --primary: 266 51% 37%; /* #5D2E8C - Primary Purple */
+  --primary-foreground: 0 0% 100%; /* White text on primary */
+  --secondary: 146 55% 40%; /* #2D9B4F - Accent Green */
+  --secondary-foreground: 266 51% 37%; /* Purple text on green */
+  --accent: 146 55% 40%; /* #2D9B4F - Accent Green */
+  --accent-foreground: 0 0% 100%; /* White text on accent */
+  --destructive: 0 78% 65%; /* #FF4B4B - Alert Red */
+  --destructive-foreground: 0 0% 100%; /* White text on destructive */
+  --ring: 266 51% 37%; /* #5D2E8C - Primary Purple */
+  --radius: 0.5rem;
+  
+  /* Neutral Colors */
+  --neutral-light: 0 0% 96%; /* #F4F4F4 - Light Gray */
+  --neutral-dark: 0 0% 82%; /* #D1D1D1 - Dark Gray */
+  
+  /* Alert Status Colors */
+  --success: 146 55% 40%; /* Green */
+  --warning: 39 100% 50%; /* Yellow */
+  --danger: 0 78% 65%; /* Red */
+}
   .dark {
-      --background: 240 10% 3.9%;
---foreground: 0 0% 98%;
---muted: 240 3.7% 15.9%;
---muted-foreground: 240 5% 64.9%;
---popover: 240 10% 3.9%;
---popover-foreground: 0 0% 98%;
---card: 240 10% 3.9%;
---card-foreground: 0 0% 98%;
---border: 240 3.7% 15.9%;
---input: 240 3.7% 15.9%;
---primary: 207 90% 54%;
---primary-foreground: 211 100% 99%;
---secondary: 240 3.7% 15.9%;
---secondary-foreground: 0 0% 98%;
---accent: 240 3.7% 15.9%;
---accent-foreground: 0 0% 98%;
---destructive: 0 62.8% 30.6%;
---destructive-foreground: 0 0% 98%;
---ring: 240 4.9% 83.9%;
---radius: 0.5rem;
-  }
+  /* Base colors */
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  
+  /* Custom Fia Global Colors */
+  --primary: 266 51% 42%; /* Slightly lighter purple for dark mode */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 146 55% 45%; /* Slightly lighter green for dark mode */
+  --secondary-foreground: 266 51% 42%;
+  --accent: 146 55% 45%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 78% 70%; /* Slightly lighter red for dark mode */
+  --destructive-foreground: 0 0% 100%;
+  --ring: 266 51% 42%;
+  --radius: 0.5rem;
+  
+  /* Neutral Colors */
+  --neutral-light: 0 0% 25%;
+  --neutral-dark: 0 0% 20%;
+  
+  /* Alert Status Colors */
+  --success: 146 55% 45%;
+  --warning: 39 100% 55%;
+  --danger: 0 78% 70%;
+}
 
 @layer base {
   * {
