@@ -1,0 +1,69 @@
+Bank Officer Panel
+
+CSP Registry: Filter by region, activity, audit history
+
+Fraud Dashboard: Sorted by severity, status, case notes
+
+Document Access: KYC, submitted 360° videos, live selfie
+
+Decision Panel: Suspend, escalate, mark safe, issue warning
+
+Download Reports: ZIP folder (media, logs, hashes, AI score)
+
+Military Coordination Panel: Share logs, CSP locations, army-tagged users, welfare coordination
+
+🔹 Customer Panel (Lite)
+
+Verify Fee: Enter receipt ID, report overcharge
+
+Submit Complaint: Facial mismatch, service denial
+
+Feedback Log: Track issue status (optional OTP login)
+
+📦 ADDITIONAL FEATURES
+
+Self Check-In System: For CSPs monthly proof
+
+AI-based CSP Monitoring: Based on region-specific anomaly
+
+Blockchain Audit Logs: Immutable option (off by default)
+
+Auditor Identity Lock: OTP + Face required for report submit
+
+Reward/Penalty Tracker: CSP performance score = incentive/notice
+
+Fraud Heatmap: Monthly regional risk visualization
+
+QR Poster System: Print QR at CSP to verify/report fee
+
+War Mode Dashboard: CSP status (online, limited, offline), auto alerts, map overlays
+
+Offline Cache Mode: IndexedDB local storage, PWA sync to Supabase
+
+Army Welfare Officer Role: Track all army-tagged families, verify and approve special payouts
+
+🧰 TECH IMPLEMENTATION ROADMAP (Summary)
+
+Frontend: React.js + Tailwind
+
+Backend: Node.js + Supabase (PostgreSQL)
+
+AI Engine: Python + Scikit-learn (fraud model)
+
+Face Detection: TensorFlow.js + OpenCV
+
+Mapping: Google Maps API + Geofencing + Red Zone tagging
+
+Video/Image Security: IPFS or SHA256 hash
+
+Notifications: OneSignal + WhatsApp API + SMS via Twilio
+
+Login/Auth: Supabase Auth (OTP, email, role-based)
+
+Audit Storage: Secure cloud storage + tamper-proof logging
+
+War Mode Infra: Panic SOS, backup Supabase sync, satellite-ready PWA
+
+Army Tagging & Dashboard: Supabase role flags, MapBox, ID upload, Zero-Charge policies
+
+Security Framework "CSP Suraksha Protocol": Facial+GPS lockdown, audit hash, panic button, AI smart alerts, geo-locked login, and local authority access view
