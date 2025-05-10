@@ -1,37 +1,37 @@
-import type { Express, Request, Response } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertUserSchema, insertCspSchema, insertTransactionSchema, insertAlertSchema, insertAuditSchema, insertComplaintSchema, insertCheckInSchema } from "@shared/schema";
 import { zodValidator } from "@shared/utils";
+import { setupAuth } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Authentication routes
-  app.post("/api/auth/login", async (req: Request, res: Response) => {
-    try {
-      const { username, password } = req.body;
-      
-      if (!username || !password) {
-        return res.status(400).json({ message: "Username and password are required" });
-      }
-      
-      const user = await storage.getUserByUsername(username);
-      
-      if (!user || user.password !== password) {
-        return res.status(401).json({ message: "Invalid credentials" });
-      }
-      
-      // Update last login time
-      await storage.updateUser(user.id, { lastLogin: new Date() });
-      
-      // Don't send password back to client
-      const { password: _, ...safeUser } = user;
-      
-      // In a real app, you would generate a JWT here
-      res.status(200).json({ user: safeUser });
-    } catch (error) {
-      res.status(500).json({ message: "Authentication failed", error: (error as Error).message });
+  // Set up authentication routes
+  setupAuth(app);
+  
+  // Middleware to check if user is authenticated
+  const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
+    if (req.isAuthenticated()) {
+      return next();
     }
-  });
+    res.status(401).json({ message: "Unauthorized" });
+  };
+
+  // Middleware to check if user has specific role
+  const hasRole = (roles: string[]) => {
+    return (req: Request, res: Response, next: NextFunction) => {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      
+      const userRole = req.user?.role;
+      if (!userRole || !roles.includes(userRole)) {
+        return res.status(403).json({ message: "Forbidden" });
+      }
+      
+      next();
+    };
+  };
 
   // User routes
   app.post("/api/users", async (req: Request, res: Response) => {
@@ -76,7 +76,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // CSP routes
-  app.post("/api/csps", async (req: Request, res: Response) => {
+  app.post("/api/csps", isAuthenticated, hasRole(['admin', 'fi']), async (req: Request, res: Response) => {
     try {
       const validation = zodValidator(insertCspSchema, req.body);
       
@@ -91,7 +91,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/csps", async (req: Request, res: Response) => {
+  app.get("/api/csps", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const filters: any = {};
       
@@ -386,7 +386,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/war-mode", async (req: Request, res: Response) => {
+  app.put("/api/war-mode", isAuthenticated, hasRole(['admin']), async (req: Request, res: Response) => {
     try {
       const updatedWarMode = await storage.updateWarMode(req.body);
       
