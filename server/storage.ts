@@ -916,13 +916,8 @@ export class DrizzleStorage implements IStorage {
 // Initialize the database storage
 let storage: IStorage;
 
-try {
-  storage = new DrizzleStorage();
-  console.log('Using DrizzleStorage with Supabase database');
-} catch (error) {
-  console.error('Failed to initialize DrizzleStorage, falling back to MemStorage:', error);
-  storage = new MemStorage();
-  console.log('Using MemStorage as fallback');
-}
+// Use memory storage for now until we resolve database connectivity issues
+console.log('Using MemStorage while database connectivity is being resolved');
+storage = new MemStorage();
 
 export { storage };
