@@ -548,16 +548,20 @@ export class DrizzleStorage implements IStorage {
       let query = this.db.select().from(csps);
       
       if (filters) {
-        const conditions = [];
-        if (filters.status) conditions.push(eq(csps.status, filters.status));
-        if (filters.district) conditions.push(eq(csps.district, filters.district));
-        if (filters.state) conditions.push(eq(csps.state, filters.state));
-        if (filters.isRedZone !== undefined) conditions.push(eq(csps.isRedZone, filters.isRedZone));
-        
-        if (conditions.length > 0) {
-          conditions.forEach(condition => {
-            query = query.where(condition);
-          });
+        if (filters.status) {
+          query = query.where(eq(csps.status, filters.status));
+        }
+        if (filters.district) {
+          query = query.where(eq(csps.district, filters.district));
+        }
+        if (filters.state) {
+          query = query.where(eq(csps.state, filters.state));
+        }
+        if (filters.isRedZone !== undefined) {
+          // Handle boolean comparison safely
+          query = query.where(filters.isRedZone ? 
+            eq(csps.isRedZone, true) : 
+            eq(csps.isRedZone, false));
         }
       }
       
@@ -744,6 +748,9 @@ export class DrizzleStorage implements IStorage {
       const result = await this.db.insert(complaints).values({
         ...insertComplaint,
         status: 'open',
+        cspId: insertComplaint.cspId || null,
+        transactionId: insertComplaint.transactionId || null,
+        contact: insertComplaint.contact || null,
         submittedAt: new Date(),
         resolvedAt: null,
         resolvedBy: null
@@ -797,7 +804,10 @@ export class DrizzleStorage implements IStorage {
         ...insertCheckIn,
         timestamp: new Date(),
         verified: false,
-        verificationMethod: null
+        verificationMethod: null,
+        location: insertCheckIn.location || {},
+        deviceInfo: insertCheckIn.deviceInfo || {},
+        faceImageUrl: insertCheckIn.faceImageUrl || null
       }).returning();
       return result[0];
     } catch (error) {
@@ -903,7 +913,16 @@ export class DrizzleStorage implements IStorage {
   }
 }
 
-// For now, use the MemStorage implementation during development
-// When ready to switch to the database, replace this with:
-// export const storage = new DrizzleStorage();
-export const storage = new MemStorage();
+// Initialize the database storage
+let storage: IStorage;
+
+try {
+  storage = new DrizzleStorage();
+  console.log('Using DrizzleStorage with Supabase database');
+} catch (error) {
+  console.error('Failed to initialize DrizzleStorage, falling back to MemStorage:', error);
+  storage = new MemStorage();
+  console.log('Using MemStorage as fallback');
+}
+
+export { storage };
